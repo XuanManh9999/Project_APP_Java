@@ -4,6 +4,11 @@
  */
 package View;
 
+import DAO.NhanSu;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import Controllor.Heandle_Nhan_Su_Controller;
+import javax.swing.JOptionPane;
 /**
  *
  * @author nguye
@@ -13,11 +18,15 @@ public class QLNS extends javax.swing.JFrame {
     /**
      * Creates new form QLNS
      */
+    Heandle_Nhan_Su_Controller controller = new Heandle_Nhan_Su_Controller();
+        DefaultTableModel model;
     public QLNS() {
         initComponents();
-                setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
+        model = (DefaultTableModel) jTable1.getModel();
+        renderData();
     }
-
+    private String maNS;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,6 +77,11 @@ public class QLNS extends javax.swing.JFrame {
             }
         ));
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -89,10 +103,25 @@ public class QLNS extends javax.swing.JFrame {
         jLabel7.setText("Mã PB:");
 
         jButton7.setText("Xóa");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Thêm");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Sửa");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         txtDiaChi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +139,11 @@ public class QLNS extends javax.swing.JFrame {
         });
 
         jButton12.setText("Tìm Kiếm");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Trở Lại");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -262,6 +296,97 @@ public class QLNS extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        if (
+            !txtma.getText().equals("") && 
+            !txtDiaChi.getText().equals("") && 
+            !txtMaPB.getText().equals("") && 
+             !txtNgaySinh.getText().equals("") && 
+             !txtSDT.getText().equals("") && 
+             !txtTen.getText().equals("") && 
+             !txtViTri.getText().equals("") 
+            ) {
+                    // TODO add your handling code here:
+                NhanSu ns = new NhanSu(txtma.getText(), txtTen.getText(), txtDiaChi.getText(), txtSDT.getText(),txtNgaySinh.getText(), txtViTri.getText(), txtMaPB.getText());
+                if (controller.createNhanSu(ns)) {
+                    JOptionPane.showMessageDialog(rootPane, "Thêm Thành Công!");
+                    renderData();
+                }else {
+                    JOptionPane.showMessageDialog(rootPane, "Đã Xảy Ra Lỗi, Vui Lòng Kiểm Tra Lại Các Mã, Lưu Ý Các mã Không Được Trùng Nhau!");                      
+                }
+            }else {
+                JOptionPane.showMessageDialog(rootPane, "Các Thông  Tin Không Được Rỗng!");                      
+            }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        if (
+            !txtma.getText().equals("") && 
+            !txtDiaChi.getText().equals("") && 
+            !txtMaPB.getText().equals("") && 
+             !txtNgaySinh.getText().equals("") && 
+             !txtSDT.getText().equals("") && 
+             !txtTen.getText().equals("") && 
+             !txtViTri.getText().equals("") 
+            ) {
+                    // TODO add your handling code here:
+                NhanSu ns = new NhanSu(txtma.getText(), txtTen.getText(), txtDiaChi.getText(), txtSDT.getText(),txtNgaySinh.getText(), txtViTri.getText(), txtMaPB.getText());
+                if (controller.updateNhanSu(ns)) {
+                    JOptionPane.showMessageDialog(rootPane, "Sửa Thành Công!");
+                    renderData();
+                }else {
+                    JOptionPane.showMessageDialog(rootPane, "Đã Xảy Ra Lỗi, Vui Lòng Kiểm Tra Lại Các Mã, Lưu Ý Mã Sẽ Không Được Phép Sửa!");                      
+                }
+            }else {
+                JOptionPane.showMessageDialog(rootPane, "Các Thông  Tin Không Được Rỗng!");                      
+            }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+         if (controller.deleteNhanSu(maNS)) {
+            JOptionPane.showMessageDialog(rootPane, "Xóa Thành Công!");
+            renderData();
+        }else {
+            JOptionPane.showMessageDialog(rootPane, "Vui Lòng Click Vào Bảng Dưới Với Nhân Sự Muốn Xóa.!");
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        try {
+                    maNS = "";
+        maNS = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+//        txtmaSV.setEditable(false);
+//        txtmaSV.setBackground(Color.LIGHT_GRAY);
+        txtma.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+        txtTen.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+        txtDiaChi.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+        txtSDT.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString());
+        txtNgaySinh.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString());
+        txtViTri.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 5).toString());
+        txtMaPB.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 6).toString());
+        }catch (Exception ex) {
+            
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        if (txtTimKiem.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Thông Tin Tìm Kiếm Không Được Rỗng.");
+        }else {
+              ArrayList<NhanSu> ds = controller.Search(txtTimKiem.getText());
+            model.getDataVector().removeAllElements();// Xóa toàn bộ bảng ghi
+             model.fireTableDataChanged();// Thông Báo Sự Thay Đổi
+             for (var it : ds) {
+                 model.addRow(new Object[] {
+                     it.getMa(), it.getTen(), it.getDiaChi(), it.getSdt(), it.getNgaySinh(), it.getViTri(), it.getMaPB()
+                 });
+             }
+        }
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -323,4 +448,15 @@ public class QLNS extends javax.swing.JFrame {
     private javax.swing.JTextField txtViTri;
     private javax.swing.JTextField txtma;
     // End of variables declaration//GEN-END:variables
+
+    private void renderData() {
+        ArrayList<NhanSu> ds = controller.readNhanSu();
+       model.getDataVector().removeAllElements();// Xóa toàn bộ bảng ghi
+        model.fireTableDataChanged();// Thông Báo Sự Thay Đổi
+        for (var it : ds) {
+            model.addRow(new Object[] {
+                it.getMa(), it.getTen(), it.getDiaChi(), it.getSdt(), it.getNgaySinh(), it.getViTri(), it.getMaPB()
+            });
+        }
+    }
 }

@@ -3,21 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
-
+import DAO.PhongBan;
+import Controllor.Heandle_PB_Controller;
+import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author nguye
  */
 public class QLPB extends javax.swing.JFrame {
-
+    Heandle_PB_Controller controller = new Heandle_PB_Controller();
+     DefaultTableModel model;
+     private String maPB = "";
     /**
      * Creates new form QLNS
      */
     public QLPB() {
         initComponents();
         setLocationRelativeTo(null);
+         model = (DefaultTableModel) jTable1.getModel();
+         renderData();
     }
 
     /**
@@ -80,6 +88,11 @@ public class QLPB extends javax.swing.JFrame {
             }
         ));
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -99,8 +112,18 @@ public class QLPB extends javax.swing.JFrame {
         });
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -114,6 +137,11 @@ public class QLPB extends javax.swing.JFrame {
         jLabel8.setText("Tìm Kiếm");
 
         jButton10.setText("Tìm Kiếm");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -156,6 +184,11 @@ public class QLPB extends javax.swing.JFrame {
         );
 
         btnXoa1.setText("Xóa");
+        btnXoa1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoa1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -247,6 +280,96 @@ public class QLPB extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_btnXoaActionPerformed
 
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        if (
+            !txtMa.getText().equals("") && 
+            !txtTen.getText().equals("") && 
+            !txtDiaChi.getText().equals("")
+            ) {
+                    // TODO add your handling code here:
+                PhongBan pb = new PhongBan(txtMa.getText(), txtTen.getText(), txtDiaChi.getText());
+                if (controller.createPhongBan(pb)) {
+                    JOptionPane.showMessageDialog(rootPane, "Thêm Thành Công!");
+                    renderData();
+                }else {
+                    JOptionPane.showMessageDialog(rootPane, "Đã Xảy Ra Lỗi, Vui Lòng Kiểm Tra Lại Các Mã, Lưu Ý Các mã Không Được Trùng Nhau!");                      
+                }
+            }else {
+                JOptionPane.showMessageDialog(rootPane, "Các Thông  Tin Không Được Rỗng!");                      
+            }
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        if (
+            !txtMa.getText().equals("") && 
+            !txtTen.getText().equals("") && 
+            !txtDiaChi.getText().equals("")
+            ) {
+                    // TODO add your handling code here:
+                PhongBan pb = new PhongBan(txtMa.getText(), txtTen.getText(), txtDiaChi.getText());
+                if (controller.updatePhongBan(pb)) {
+                    JOptionPane.showMessageDialog(rootPane, "Sửa Thành Công!");
+                    renderData();
+                }else {
+                    JOptionPane.showMessageDialog(rootPane, "Đã Xảy Ra Lỗi, Vui Lòng Kiểm Tra Lại Các Mã, Lưu Ý Mã Phòng Ban Sẽ Không Được Phép Sửa!");                      
+                }
+            }else {
+                JOptionPane.showMessageDialog(rootPane, "Các Thông  Tin Không Được Rỗng!");                      
+            }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoa1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoa1ActionPerformed
+        if (controller.deletePhongBan(maPB)) {
+            JOptionPane.showMessageDialog(rootPane, "Xóa Thành Công!");
+            renderData();
+        }else {
+            JOptionPane.showMessageDialog(rootPane, "Vui Lòng Click Vào Bảng Dưới Với Nhân Sự Muốn Xóa.!");
+        }
+    }//GEN-LAST:event_btnXoa1ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        if (!txtThemKiemTheoTen.getText().equals("") || !txtTimKiemTheoMa.getText().equals("")) {
+            if (!txtThemKiemTheoTen.getText().equals("") && txtTimKiemTheoMa.getText().equals("")) {
+                    ArrayList<PhongBan> ds = controller.Search_theoTen(txtThemKiemTheoTen.getText());
+                    model.getDataVector().removeAllElements();// Xóa toàn bộ bảng ghi
+                     model.fireTableDataChanged();// Thông Báo Sự Thay Đổi
+                     for (var it : ds) {
+                         model.addRow(new Object[] {
+                             it.getMaPB(), it.getTenPB(), it.getDiaChi()
+                     });
+                }
+            }else {
+                ArrayList<PhongBan> ds = controller.Search_theoMa(txtTimKiemTheoMa.getText());
+                    model.getDataVector().removeAllElements();// Xóa toàn bộ bảng ghi
+                     model.fireTableDataChanged();// Thông Báo Sự Thay Đổi
+                     for (var it : ds) {
+                         model.addRow(new Object[] {
+                             it.getMaPB(), it.getTenPB(), it.getDiaChi()
+                     });
+                }
+            }
+        }else {
+            JOptionPane.showMessageDialog(rootPane, "Thông Tin Tìm Kiếm Phải Khác Rỗng!");
+        }
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+         try {
+                    maPB = "";
+        maPB = jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString();
+//        txtmaSV.setEditable(false);
+//        txtmaSV.setBackground(Color.LIGHT_GRAY);
+        txtMa.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+        txtTen.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+        txtDiaChi.setText(jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+        }catch (Exception ex) {
+            
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -310,4 +433,15 @@ public class QLPB extends javax.swing.JFrame {
     private javax.swing.JTextField txtThemKiemTheoTen;
     private javax.swing.JTextField txtTimKiemTheoMa;
     // End of variables declaration//GEN-END:variables
+
+    private void renderData() {
+         ArrayList<PhongBan> ds = controller.readPhongBan();
+       model.getDataVector().removeAllElements();// Xóa toàn bộ bảng ghi
+        model.fireTableDataChanged();// Thông Báo Sự Thay Đổi
+        for (var it : ds) {
+            model.addRow(new Object[] {
+                it.getMaPB(), it.getTenPB(), it.getDiaChi()
+            });
+        }
+    }
 }

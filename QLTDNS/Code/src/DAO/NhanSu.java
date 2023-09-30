@@ -10,14 +10,24 @@ package DAO;
  */
 public class NhanSu extends Nguoi{
     private String maPB;
-
+    private String viTri;
     public NhanSu() {
     }
 
-    public NhanSu(String ma, String ten, String diaChi, String sdt, String ngaySinh, String maPB) {
+    public NhanSu(String ma, String ten, String diaChi, String sdt, String ngaySinh,String viTri, String maPB) {
         super(ma, ten, diaChi, sdt, ngaySinh);
         this.maPB = maPB;
+        this.viTri = viTri;
     }
+
+    public void setViTri(String viTri) {
+        this.viTri = viTri;
+    }
+    
+    public String getViTri() {
+        return viTri;
+    }
+    
 
     public String getMaPB() {
         return maPB;
