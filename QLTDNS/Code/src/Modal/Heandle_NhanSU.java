@@ -85,12 +85,26 @@ public class Heandle_NhanSU  implements CRUD<NhanSu>{
     @Override
     public boolean Delete(String id) {
          try {
-            String query = String.format("delete from nhansu where mans = '%s'", id);
-            var st = conn.createStatement();
-            return st.executeUpdate(query) > 0;
+            String getNC = getMa_NC(id);
+            if(delete_chamCong(id)) {
+                System.out.println("Xoa Cham Cong Done");
+                int check = 0;
+                String query = String.format("delete from nhansu where mans = '%s'", id);
+                var st = conn.createStatement();
+                check =  st.executeUpdate(query);
+                if(check > 0) {
+                    System.out.println("Xoa Nhan Su Done");
+                    if (delete_ngayCong(getNC)) {
+                        System.out.println("Xoa Ngay Cong Done");
+                        return true;
+                    }
+                }
+            }
+            
         } catch (SQLException ex) {
                     return false;
         }
+         return false;
     }
 
     @Override
@@ -148,6 +162,44 @@ public class Heandle_NhanSU  implements CRUD<NhanSu>{
 //            Logger.getLogger(hendle_QL_SV.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private boolean delete_chamCong(String mans) {
+        try {
+            String query = String.format("DELETE FROM cham_cong where maNS = '%s'", mans);
+            var st = conn.createStatement();
+            return st.executeUpdate(query) > 0;
+        } catch (SQLException ex) {
+                    return false;
+        }
+        
+    }
+     private boolean delete_ngayCong(String NC) {
+        try {
+            String query = String.format("delete from ngaycong where manc = '%s'", NC);
+            var st = conn.createStatement();
+            return st.executeUpdate(query) > 0;
+        } catch (SQLException ex) {
+                    return false;
+        }
+    }
+    private String getMa_NC (String mans) {
+        // Lay ma nc 
+        String manc = "";
+        try {
+            String query = String.format("SELECT DISTINCT ngaycong.maNC from nhansu \n" +
+            "INNER JOIN cham_cong on '%s' = cham_cong.maNS\n" +
+            "INNER JOIN ngaycong on cham_cong.maNC = ngaycong.maNC", mans);
+            var st = conn.createStatement();
+            var rs = st.executeQuery(query);
+            while (rs.next()) {
+               manc = rs.getString(1);
+            }
+            return manc;
+        } catch (SQLException ex) {
+            return null;
+        }
+        
+    }
+    
 private static String random_ma(ArrayList<String> existingCodes) {
         String uniqueCode;
         do {

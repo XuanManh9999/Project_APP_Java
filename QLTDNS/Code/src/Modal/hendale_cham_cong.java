@@ -17,7 +17,6 @@ import java.sql.ResultSet;
  * @author nguye
  */
 public class hendale_cham_cong {
-    private String maTC = "";
     private static  java.sql.Connection conn = Connect_DB.sql();
     public hendale_cham_cong() {
         conn = Connect_DB.sql();
