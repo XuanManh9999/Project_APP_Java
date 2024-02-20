@@ -14,7 +14,7 @@ public class NhanSu extends Nguoi{
     public NhanSu() {
     }
 
-    public NhanSu(String ma, String ten, String diaChi, String sdt, String ngaySinh,String viTri, String maPB) {
+    public NhanSu(String ma, String ten, String diaChi, String sdt, String ngaySinh, String viTri, String maPB) {
         super(ma, ten, diaChi, sdt, ngaySinh);
         this.maPB = maPB;
         this.viTri = viTri;

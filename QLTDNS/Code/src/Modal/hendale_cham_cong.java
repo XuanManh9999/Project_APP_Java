@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import DAO.NhanSu;
 import DAO.NgayCong;
 import DAO.ChamCong;
-import com.mysql.cj.xdevapi.Result;
+//import com.mysql.cj.xdevapi.Result;
 import java.sql.ResultSet;
 /**
  *

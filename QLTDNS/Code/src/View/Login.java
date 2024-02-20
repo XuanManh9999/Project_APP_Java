@@ -47,6 +47,8 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Mật Khẩu:");
 
+        txtMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setText("Đăng Nhập");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

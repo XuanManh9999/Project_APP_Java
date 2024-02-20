@@ -113,7 +113,7 @@ public class Home extends javax.swing.JFrame {
         jLabel2.setText("Trang Chủ");
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/quan-ly-nhan-vien (1).png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/423422439_416718900809759_4719243813548087346_n.png"))); // NOI18N
         jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

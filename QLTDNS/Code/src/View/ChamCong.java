@@ -407,7 +407,9 @@ public class ChamCong extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGiamCongActionPerformed
 
     private void btnChamCongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChamCongActionPerformed
-       if (Integer.parseInt(txtChamCong.getText()) > 0) {
+      
+        if (!txtChamCong.getText().equals("")) {
+             if (Integer.parseInt(txtChamCong.getText()) > 0) {
             if (cc.chamCongController(manc, Integer.parseInt(txtChamCong.getText()))) {
             JOptionPane.showMessageDialog(rootPane, "Chấm Công Thành Công");
             renderData();
@@ -417,6 +419,10 @@ public class ChamCong extends javax.swing.JFrame {
        }else {
             JOptionPane.showMessageDialog(rootPane, "Số Lượng Giảm Phải Lớn Hơn 0");
        }
+        }else {
+              JOptionPane.showMessageDialog(rootPane, "Số ngày chấm công không được rỗng.");
+        }
+       
        txtChamCong.setText("");
     }//GEN-LAST:event_btnChamCongActionPerformed
 

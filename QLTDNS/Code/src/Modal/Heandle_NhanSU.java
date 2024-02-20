@@ -47,7 +47,6 @@ public class Heandle_NhanSU  implements CRUD<NhanSu>{
             }
         } catch (SQLException ex) {
                     return false; 
-//            Logger.getLogger(hendle_QL_SV.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -59,9 +58,10 @@ public class Heandle_NhanSU  implements CRUD<NhanSu>{
             String query = "select * from nhansu";
             var st = conn.createStatement();
             var rs = st.executeQuery(query);
-            Connect_DB.closeConnectDB();
+
             while (rs.next()) {
-                NhanSu s = new NhanSu(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getDate(5).toString(), rs.getString(6), rs.getString(7) );
+                      
+                NhanSu s = new NhanSu(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7) );
                 nhansu.add(s);
             }
             return nhansu;

@@ -18,7 +18,7 @@ public class Connect_DB {
     }
     public static java.sql.Connection sql() {
          try { 
-//            Class.forName("com.sun.jdi.connect.spi.Connection");
+            Class.forName("com.sun.jdi.connect.spi.Connection");
         
              conn =  DriverManager.getConnection("jdbc:mysql://localhost:3306/qlns?useSSL=false", "root", "");
              return  conn;

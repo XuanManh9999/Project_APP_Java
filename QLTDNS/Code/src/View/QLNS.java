@@ -483,12 +483,16 @@ public class QLNS extends javax.swing.JFrame {
 
     private void renderData() {
         ArrayList<NhanSu> ds = controller.readNhanSu();
-       model.getDataVector().removeAllElements();// Xóa toàn bộ bảng ghi
+        
+        if (ds != null) {
+              model.getDataVector().removeAllElements();// Xóa toàn bộ bảng ghi
         model.fireTableDataChanged();// Thông Báo Sự Thay Đổi
         for (var it : ds) {
             model.addRow(new Object[] {
                 it.getMa(), it.getTen(), it.getDiaChi(), it.getSdt(), it.getNgaySinh(), it.getViTri(), it.getMaPB()
             });
         }
+        }
+     
     }
 }
